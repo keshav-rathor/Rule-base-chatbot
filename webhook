@@ -16,6 +16,9 @@ client = MongoClient(MONGODB_URI, connectTimeoutMS=30000)
 db = client.aflatoun
 questions = db.questions
 
+
+job_detail={}
+
 # Empty list for previously asked question
 previous_questions = []
 previous_explanation = []
@@ -84,6 +87,9 @@ def process_request(req):
             }
           
         elif action == "Jobs" :
+           result = req.get("queryResult")
+           parameter=result.get("parameters")
+           job_detail.update(parameter)
             
 
       
@@ -162,151 +168,6 @@ def process_request(req):
                     ]
                 }
 
-        elif action == "advocacy.training":
-            result = req.get("queryResult")
-            query = result.get("queryText")
-            if query in training_buttons:
-                training_buttons.remove_default(query)
-                return {
-                    "source": "webhook",
-                    "fulfillmentMessages": [
-                        make_text_response(training_response[query]),
-                        {
-                            "quickReplies": {
-                                "title": "What would you like to explore about Aflatoun training? ",
-                                "quickReplies": training_buttons
-                            },
-                            "platform": "FACEBOOK"
-                        }
-                    ]
-                }
-            else:
-                speech = "Aflatoun works together with teachers enabling children to develop the knowledge, skills and " \
-                         "attitudes they need to succeed in life."
-                return {
-                    "source": "webhook",
-                    "fulfillmentMessages": [
-                        {
-                            "quickReplies": {
-                                "title": speech,
-                                "quickReplies": training_buttons
-                            },
-                            "platform": "FACEBOOK"
-                        }
-                    ]
-                }
-
-        elif action == "Trivia":
-            speech = show(trivia, trivia_previous)
-            if len(trivia) != 0:
-                return {
-                    "source": "webhook",
-                    "fulfillmentMessages": [
-                        {
-                            "text": {
-                                "text": [
-                                        speech + "\n Would to like see more things about Aflatoun\n1. Learn 📝\n 2.Train 👨🏼‍🏫\n 3. Aflatoun stories 🌏 \n5. Trivia 🗝\n"
-                                ]
-                            },
-                        },
-                        make_text_response(speech),
-                        {
-                            "quickReplies": {
-                                "title": "Would to like see more things about Aflatoun",
-                                "quickReplies": [
-                                    "Trivia 🗝",
-                                    "Learn 📝",
-                                    "Train 👨🏼‍🏫",
-                                    "Aflatoun stories 🌏"
-                                ]
-                            },
-                            "platform": "FACEBOOK"
-                        }
-                    ]
-                }
-            else:
-                return {
-                    "source": "webhook",
-                    "fulfillmentMessages": [
-                        {
-                            "text": {
-                                "text": [
-                                    speech + "\n Would to like see more things\n1. Aflatoun stories 🌏\n2. Learn 📝\n3.Train 👨🏼‍🏫"
-                                ]
-                            },
-                        },
-                        make_text_response(speech),
-                        {
-                            "quickReplies": {
-                                "title": "Would to like see more things?",
-                                "quickReplies": [
-                                    "Learn 📝",
-                                    "Train 👨🏼‍🏫",
-                                    "Aflatoun stories 🌏"
-                                ]
-                            },
-                            "platform": "FACEBOOK"
-                        }
-                    ]
-                }
-
-        elif action == "Fun":
-            speechFun = showFun(fun, fun_previous)
-            if len(fun) != 0:
-                return {
-                    "source": "webhook",
-                    "fulfillmentMessages": [
-                        {
-                            "text": {
-                                "text": [
-                                    speechFun + "\nWould to like see more things about Aflatoun\n1. Learn 📝\n 2.Train 👨🏼‍🏫\n 3. Aflatoun stories 🌏 \n4. Fun 🎢"
-                                ]
-                            },
-                        },
-                        make_text_response(speechFun),
-                        {
-                            "quickReplies": {
-                                "title": "Would to like see more things about Aflatoun",
-                                "quickReplies": [
-                                    "Fun 🎢",
-                                    "Learn 📝",
-                                    "Train 👨🏼‍🏫",
-                                    "Aflatoun stories 🌏"
-                                ]
-                            },
-                            "platform": "FACEBOOK"
-                        }
-                    ]
-                }
-            else:
-                return {
-                    "source": "webhook",
-                    "fulfillmentMessages": [
-                        {
-                            "text": {
-                                "text": [
-                                    speechFun + "\n Would to like see more things about Aflatoun\n1. Aflatoun stories 🌏\n2. Learn 📝\n3.Train 👨🏼‍🏫"
-                                ]
-                            },
-                        },
-                        make_text_response(speechFun),
-                        {
-                            "quickReplies": {
-                                "title": "Would to like see more things about Aflatoun",
-                                "quickReplies": [
-                                    "Learn 📝",
-                                    "Train 👨🏼‍🏫",
-                                    "Aflatoun stories 🌏"
-                                ]
-                            },
-                            "platform": "FACEBOOK"
-                        }
-                    ]
-                }
-
-       
-
-       
 
         elif action == "input.unknown":
             flag += 1
