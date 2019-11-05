@@ -15,6 +15,7 @@ client = MongoClient(MONGODB_URI, connectTimeoutMS=30000)
 db = client.hrchatbot
 candidates = db.Chatbots_Candidates
 
+candidates = db.Chatbots_Candidates
 
 
 job_detail={}
@@ -71,14 +72,16 @@ def process_request(req):
         elif action == "name":
             result = req.get("queryResult")
             parameter = result.get("parameters")
-            name.update(parameter)
-         name.insert(parameter)
-          
-        elif action == "Jobs" :
+            job_detail.update(parameter)
+        # candidates.insert(name)
+
+        elif action == "Jobs":
            result = req.get("queryResult")
            parameter=result.get("parameters")
            job_detail.update(parameter)
-        job_detail.insert(parameter)
+
+        if len(job_detail)==6:
+           candidates.insert(job_detail)
 
         print(job_detail)
         print(name)
