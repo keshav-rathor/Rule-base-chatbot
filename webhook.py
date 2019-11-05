@@ -72,15 +72,17 @@ def process_request(req):
             result = req.get("queryResult")
             parameter = result.get("parameters")
             name.update(parameter)
-
+         name.insert(parameter)
           
         elif action == "Jobs" :
            result = req.get("queryResult")
            parameter=result.get("parameters")
            job_detail.update(parameter)
+        job_detail.insert(parameter)
 
         print(job_detail)
         print(name)
+
 
 
     except Exception as e:
