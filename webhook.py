@@ -14,8 +14,9 @@ MONGODB_URI = "mongodb+srv://kamlesh:techmatters123@aflatoun-quiz-pflgi.mongodb.
 client = MongoClient(MONGODB_URI, connectTimeoutMS=30000)
 db = client.hrchatbot
 candidates = db.Chatbots_Candidates
+job=db.Hiring_PublicJobPosition
 
-candidates = db.Chatbots_Candidates
+
 
 
 job_detail={}
@@ -82,7 +83,8 @@ def process_request(req):
 
         if len(job_detail)==6:
            candidates.insert(job_detail)
-
+           show_job= job.find("Job_role","Location",{"CTC":{ gt: job_detail["CTC"] }})
+        print(show_job)
         print(job_detail)
         print(name)
 
