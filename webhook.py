@@ -12,8 +12,9 @@ from pymongo import MongoClient
 
 MONGODB_URI = "mongodb+srv://kamlesh:techmatters123@aflatoun-quiz-pflgi.mongodb.net/test?retryWrites=true&w=majority"
 client = MongoClient(MONGODB_URI, connectTimeoutMS=30000)
-db = client.aflatoun
-questions = db.questions
+db = client.hrchatbot
+candidates = db.Chatbots_Candidates
+
 
 
 job_detail={}
@@ -71,6 +72,7 @@ def process_request(req):
             result = req.get("queryResult")
             parameter = result.get("parameters")
             name.update(parameter)
+
           
         elif action == "Jobs" :
            result = req.get("queryResult")
@@ -79,6 +81,8 @@ def process_request(req):
            return {
                job_detail
            }
+        print(job_detail)
+        print(name)
 
 
     except Exception as e:
