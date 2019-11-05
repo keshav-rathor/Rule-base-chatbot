@@ -8,8 +8,7 @@ from flask import Flask
 from flask import request, make_response
 from pymongo import MongoClient
 
-from content import region_facebook_video, training_response, partnership_response, facts, fun, trivia
-from utils import ButtonList
+#from utils import ButtonList
 
 MONGODB_URI = "mongodb+srv://kamlesh:techmatters123@aflatoun-quiz-pflgi.mongodb.net/test?retryWrites=true&w=majority"
 client = MongoClient(MONGODB_URI, connectTimeoutMS=30000)
@@ -18,15 +17,6 @@ questions = db.questions
 
 
 job_detail={}
-
-# Empty list for previously asked question
-previous_questions = []
-previous_explanation = []
-flag = 0
-training_buttons = ButtonList(training_response.keys(), default="training")
-partnership_buttons = ButtonList(partnership_response.keys(), default="partnership")
-
-
 
 # Flask app should start in global layout
 app = Flask(__name__)
@@ -54,9 +44,6 @@ def show(information,information_previous):
     return information_sample
 
 
-
-
-
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
@@ -75,13 +62,7 @@ def process_request(req):
 
         if action == "input.welcome":
             # CLear the previous question list if start over
-            print(previous_explanation)
-            print(previous_questions)
-            previous_questions.clear()
-            previous_explanation.clear()
-            print(previous_explanation)
-            print(previous_questions)
-            flag = 0
+
             return {
                 "source": "webhook"
             }
@@ -90,123 +71,10 @@ def process_request(req):
            result = req.get("queryResult")
            parameter=result.get("parameters")
            job_detail.update(parameter)
-            
+           return {
+               job_detail
+           }
 
-      
-     
-      
-        elif action == "show.card":
-            result = req.get("queryResult")
-            category = result.get("parameters").get("category")
-            explanations = questions.aggregate([
-                {
-                    '$sample': {
-                        "size": 40
-                    }
-                },
-                {
-                    '$match': {
-                        "category": category,
-                        "type": "explanation",
-                        "_id": {
-                            "$nin": previous_explanation
-                        }
-                    }
-                }
-            ])
-
-            try:
-                explanation = explanations.next()
-            except StopIteration:
-                explanation = None
-
-            if explanation:
-                previous_explanation.append(explanation["_id"])
-                return {
-                    "source": "webhook",
-                    "fulfillmentMessages": [
-                        # make_text_response(explanation["description"]),
-                        get_response_media(explanation, platform="None"),
-                        get_response_media(explanation),
-                        {
-                            "quickReplies": {
-                                "title": "What would you like to do next? 🤔",
-                                "quickReplies": [
-                                    "Quiz Time 🔎",
-                                    "Next Lesson ⛓",
-                                    "Entertainment  🥳"
-                                ]
-                            },
-                            "platform": "FACEBOOK"
-                        }
-                    ]
-                }
-            else:
-                return {
-                    "source": "webhook",
-                    "fulfillmentMessages": [
-                        {
-                            "text": {
-                                "text": [
-                                    f"That's the spirit 👻 - you have completed the {category} lesson.\nWhat would "
-                                    f"you like to do next? 🤔\n8. Take a Quiz 🔎\n10. See Other Topic 👀\n 4. Fun 🎢"
-                                ]
-                            }
-                        },
-                        make_text_response(f"That's the spirit 👻 - you have completed the {category} lesson."),
-                        {
-                            "quickReplies": {
-                                "title": "What would you like to do next? 🤔",
-                                "quickReplies": [
-                                    "Take a Quiz 🔎",
-                                    "See Other Topic 👀",
-                                    "Entertainment  🥳"
-                                ]
-                            },
-                            "platform": "FACEBOOK"
-                        }
-                    ]
-                }
-
-
-        elif action == "input.unknown":
-            flag += 1
-            if flag >= 2:
-                flag = 0
-                return {
-                    "source": "webhook",
-                    "fulfillmentMessages": [
-                        {
-                            "text": {
-                                "text": [
-                                    "Anything for you but first you have to be clear about what you are asking "
-                                    "for.\nI can help you these following things:\n1. Learn 📝\n2. Train 👨🏼‍🏫\n3. "
-                                    "Aflatoun Stories 🌏",
-                                ]
-                            }
-                        },
-                        {
-                            "text": {
-                                "text": [
-                                    "I am fully aware of what you want but I don't have knowledge about that.",
-                                ]
-                            },
-                            "platform": "FACEBOOK"
-                        },
-                        {
-                            "quickReplies": {
-                                "title": "I can help you these following things",
-                                "quickReplies": [
-                                    "Learn 📝",
-                                    "Train 👨‍🏫",
-                                    "Aflatoun Stories 🌏",
-                                    "Entertainment 🥳"
-                                ]
-                            },
-                            "platform": "FACEBOOK"
-                        }
-                    ]
-                }
 
     except Exception as e:
         print("Error:", e)
