@@ -78,9 +78,7 @@ def process_request(req):
            result = req.get("queryResult")
            parameter=result.get("parameters")
            job_detail.update(parameter)
-           return {
-               job_detail
-           }
+
         print(job_detail)
         print(name)
 
