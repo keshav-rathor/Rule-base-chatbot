@@ -17,6 +17,7 @@ questions = db.questions
 
 
 job_detail={}
+name={}
 
 # Flask app should start in global layout
 app = Flask(__name__)
@@ -66,6 +67,10 @@ def process_request(req):
             return {
                 "source": "webhook"
             }
+        elif action == "name":
+            result = req.get("queryResult")
+            parameter = result.get("parameters")
+            name.update(parameter)
           
         elif action == "Jobs" :
            result = req.get("queryResult")
