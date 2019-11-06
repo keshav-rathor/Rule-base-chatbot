@@ -25,6 +25,17 @@ name={}
 # Flask app should start in global layout
 app = Flask(__name__)
 
+def make_text_response(message, platform="FACEBOOK"):
+    return {
+        "text": {
+            "text": [
+                message
+            ]
+        },
+        "platform": platform
+    }
+
+
 
 # Defining a function which inputs a text and outputs the formatted object to return in facebook response
 def make_text_response(message, platform="FACEBOOK"):
@@ -85,29 +96,40 @@ def process_request(req):
            if len(job_detail)>=6:
                print("Got all job details")
                candidates.insert(job_detail)
-               show_job = job.find_one({"jobTitle": job_detail["jobTitle"], "locality": job_detail["locality"]})
+               show_job = job.find_one({"jobTitle": job_detail["jobTitle"], "locality": job_detail["locality"],
+                                        "statusVisible" : "enum.Hiring_JobPositionStatusVisible.Public"})
                print(show_job)
-               return {
-                   "source": "webhook",
-                   "fulfillmentMessages":[
-                       {
-                           "card": {
-                               "title": show_job["jobTitle"],
-                               "subtitle": show_job["companyName"] + " | " + show_job["locality"] + " | " + show_job["region"],
-                               "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
-                               "buttons": [
-                                   {
-                                       "text": "View Job Detail",
-                                       "postback": show_job["jobDetailsUrl"]
-                                   }
-                               ]
-                           },
-                           "platform": "FACEBOOK"
-                       }
+               if show_job:
+                   return {
+                       "source": "webhook",
+                       "fulfillmentMessages":[
+                           {
+                               "card": {
+                                   "title": show_job["jobTitle"],
+                                   "subtitle": show_job["companyName"] + " | " + show_job["locality"] + " | " + show_job["region"],
+                                   "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
+                                   "buttons": [
+                                       {
+                                           "text": "View Job Detail",
+                                           "postback": show_job["jobDetailsUrl"]
+                                       }
+                                   ]
+                               },
+                               "platform": "FACEBOOK"
+                           }
 
 
-                   ]
-               }
+                       ]
+                   }
+               else:
+                   return {
+                       "source": "webhook",
+                       "fulfillmentMessages": [
+                           make_text_response(" We are really sorry but we don't have any job opening for your profile for now ."
+                                              "We have your contact details and will contact you if there is any opening in future ."
+                                              "Thanks for visiting our site")
+                       ]
+                   }
 
 
 
