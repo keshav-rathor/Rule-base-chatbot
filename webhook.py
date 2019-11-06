@@ -130,7 +130,7 @@ def process_request(req):
                                               "Thanks for visiting our site")
                        ]
                    }
-               job_detail = {}
+           job_detail = {}
 
 
 
