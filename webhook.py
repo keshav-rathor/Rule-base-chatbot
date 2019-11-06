@@ -80,14 +80,34 @@ def process_request(req):
            result = req.get("queryResult")
            parameter=result.get("parameters")
            job_detail.update(parameter)
-        print("Job details", job_detail)
-        print("Name", name)
-        if len(job_detail)>=6:
-           print("Got all job details")
-           candidates.insert(job_detail)
-           show_job= job.find_one({"jobTitle": job_detail["jobTitle"], "locality": job_detail["locality"]})
-           print(show_job)
+            # print("Job details", job_detail)
+            # print("Name", name)
+            if len(job_detail)>=6:
+               print("Got all job details")
+               candidates.insert(job_detail)
+               show_job = job.find_one({"jobTitle": job_detail["jobTitle"], "locality": job_detail["locality"]})
+               print(show_job)
+               return {
+                   "source": "webhook",
+                   "fulfillmentMessages":[
+                       {
+                           "card": {
+                               "title": show_job["jobTitle"],
+                               "subtitle": show_job["companyName"] + " | " + show_job["locality"] + " | " + show_job["region"],
+                               "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
+                               "buttons": [
+                                   {
+                                       "text": "View Job Detail",
+                                       "postback": show_job["jobDetailsUrl"]
+                                   }
+                               ]
+                           },
+                           "platform": "FACEBOOK"
+                       }
 
+
+                   ]
+               }
 
 
 
