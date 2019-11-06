@@ -71,7 +71,7 @@ def webhook():
 
 
 def process_request(req):
-    
+    global job_detail
     try:
         action = req.get("queryResult").get("action")
 
