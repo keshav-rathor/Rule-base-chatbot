@@ -99,6 +99,7 @@ def process_request(req):
                show_job = job.find_one({"jobTitle": job_detail["jobTitle"], "locality": job_detail["locality"],
                                         "statusVisible" : "enum.Hiring_JobPositionStatusVisible.Public"})
                print(show_job)
+               job_detail={}
                if show_job:
                    return {
                        "source": "webhook",
