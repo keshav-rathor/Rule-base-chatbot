@@ -99,7 +99,9 @@ def process_request(req):
                show_job = job.find_one({"jobTitle": job_detail["jobTitle"], "locality": job_detail["locality"],
                                         "statusVisible" : "enum.Hiring_JobPositionStatusVisible.Public"})
                print(show_job)
+
                if show_job:
+                   job_detail={}
                    return {
                        "source": "webhook",
                        "fulfillmentMessages":[
@@ -130,7 +132,7 @@ def process_request(req):
                                               "Thanks for visiting our site")
                        ]
                    }
-           job_detail = {}
+
 
 
 
