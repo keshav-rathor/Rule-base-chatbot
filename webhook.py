@@ -80,12 +80,13 @@ def process_request(req):
            result = req.get("queryResult")
            parameter=result.get("parameters")
            job_detail.update(parameter)
-        print(job_detail)
+        print("Job details", job_detail)
+        print("Name", name)
         if len(job_detail)==6:
+            print("Got all job details")
            candidates.insert(job_detail)
            show_job= job.find({job_detail["jobTitle"]},{job_detail["locality"]})
            print(show_job)
-        print(name)
 
 
 
