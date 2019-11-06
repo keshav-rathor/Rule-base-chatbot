@@ -83,7 +83,7 @@ def process_request(req):
         print(job_detail)
         if len(job_detail)==6:
            candidates.insert(job_detail)
-           show_job= job.find(job_detail["jobTitle"],job_detail["locality"])
+           show_job= job.find({job_detail["jobTitle"]},{job_detail["locality"]})
            print(show_job)
         print(name)
 
