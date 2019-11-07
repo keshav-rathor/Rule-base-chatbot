@@ -97,7 +97,7 @@ def process_request(req):
                print("Got all job details")
                candidates.insert(job_detail)
                show_jobs = job.find({ "locality": job_detail["locality"],
-                                        "statusVisible" : "enum.Hiring_JobPositionStatusVisible.Public"}).limit(5)
+                                        "statusVisible" : "enum.Hiring_JobPositionStatusVisible.Public"}).limit(3)
                print(show_jobs)
 
                if show_jobs:
