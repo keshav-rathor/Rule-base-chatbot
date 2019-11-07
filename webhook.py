@@ -96,7 +96,7 @@ def process_request(req):
            if len(job_detail)>=6:
                print("Got all job details")
                candidates.insert(job_detail)
-               show_job = job.find_one({"jobTitle": job_detail["jobTitle"], "locality": job_detail["locality"],
+               show_jobs = job.find({"jobTitle": job_detail["jobTitle"], "locality": job_detail["locality"],
                                         "statusVisible" : "enum.Hiring_JobPositionStatusVisible.Public"})
                print(show_job)
 
@@ -104,25 +104,24 @@ def process_request(req):
                    job_detail={}
                    return {
                        "source": "webhook",
-                       "fulfillmentMessages":[
-                           {
-                               "card": {
-                                   "title": show_job["jobTitle"],
-                                   "subtitle": show_job["companyName"] + " | " + show_job["locality"] + " | " + show_job["region"],
-                                   "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
-                                   "buttons": [
-                                       {
-                                           "text": "View Job Detail",
-                                           "postback": show_job["jobDetailsUrl"]
-                                       }
-                                   ]
-                               },
-                               "platform": "FACEBOOK"
-                           }
-
-
-                       ]
+                       "fulfillmentMessages":   [
+                            {
+                                   "card": {
+                                       "title": i["jobTitle"],
+                                       "subtitle": i["companyName"] + " | " + i["locality"] + " | " + i[
+                                           "region"],
+                                       "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
+                                       "buttons": [
+                                           {
+                                               "text": "View Job Detail",
+                                               "postback": i["jobDetailsUrl"]
+                                           }
+                                       ]
+                                   },
+                                   "platform": "FACEBOOK"
+                               } for i in show_jobs ]
                    }
+
                else:
                    return {
                        "source": "webhook",
