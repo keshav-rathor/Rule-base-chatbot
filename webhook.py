@@ -98,9 +98,9 @@ def process_request(req):
                candidates.insert(job_detail)
                show_jobs = job.find({"jobTitle": job_detail["jobTitle"], "locality": job_detail["locality"],
                                         "statusVisible" : "enum.Hiring_JobPositionStatusVisible.Public"})
-               print(show_job)
+               print(show_jobs)
 
-               if show_job:
+               if show_jobs:
                    job_detail={}
                    return {
                        "source": "webhook",
