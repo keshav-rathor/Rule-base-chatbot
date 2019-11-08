@@ -95,7 +95,7 @@ def process_request(req):
             # print("Name", name)
 
             print("Got all job details")
-            candidates.insert(job_detail)
+            #candidates.insert(job_detail)
             show_jobs = job.find({"locality": job_detail["locality"],
                                   "statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}).limit(3)
             print(show_jobs)
@@ -140,7 +140,7 @@ def process_request(req):
             # print("Name", name)
 
             print("Got all job details")
-            candidates.insert(job_detail)
+            #candidates.insert(job_detail)
             show_jobs = job.find({"jobTitle": job_detail["jobTitle"],
                                   "statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}).limit(3)
             print(show_jobs)
