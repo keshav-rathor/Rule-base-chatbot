@@ -132,7 +132,50 @@ def process_request(req):
                     ]
                 }
 
+        elif action == "IT":
+            result = req.get("queryResult")
+            parameter = result.get("parameters")
+            job_detail.update(parameter)
+            # print("Job details", job_detail)
+            # print("Name", name)
 
+            print("Got all job details")
+            candidates.insert(job_detail)
+            show_jobs = job.find({"jobTitle": job_detail["jobTitle"],
+                                  "statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}).limit(3)
+            print(show_jobs)
+
+            if show_jobs:
+                job_detail = {}
+                return {
+                    "source": "webhook",
+                    "fulfillmentMessages": [
+                        {
+                            "card": {
+                                "title": i["jobTitle"],
+                                "subtitle": i["companyName"] + " | " + i["locality"] + " | " + i["region"],
+                                "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
+                                "buttons": [
+                                    {
+                                        "text": "View Job Detail",
+                                        "postback": i["jobDetailsUrl"]
+                                    }
+                                ]
+                            },
+                            "platform": "FACEBOOK"
+                        } for i in show_jobs]
+                }
+
+            else:
+                return {
+                    "source": "webhook",
+                    "fulfillmentMessages": [
+                        make_text_response(
+                            " We are really sorry but we don't have any job opening for your profile for now ."
+                            "We have your contact details and will contact you if there is any opening in future ."
+                            "Thanks for visiting our site")
+                    ]
+                }
 
 
         elif action == "Jobs":
