@@ -100,7 +100,9 @@ def process_request(req):
                     "source": "webhook",
                     "fulfillmentMessages": [
                         make_text_response(
-                            " Thanks for sharing your details. I will contact you if there is something for you."
+                            " Thanks for sharing your details. Looks like someone already got hired for this role ."
+                            "I will get back to you with new jobs as soon as possible."
+
                             )
                     ]
                 }
