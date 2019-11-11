@@ -93,13 +93,18 @@ def process_request(req):
             parameter = result.get("parameters")
             candidates_detail.update(parameter)
             candidates.insert(candidates_detail)
-            return {
-                "source": "webhook",
-                "fulfillmentMessages": [
-                    make_text_response("Thanks for sharing your details. I will contact you if there is something for you."
-                        )
-                ]
-            }
+            if len(candidates_detail)==7:
+                candidates.insert(candidates_detail)
+                candidates_detail={}
+                return {
+                    "source": "webhook",
+                    "fulfillmentMessages": [
+                        make_text_response(
+                            " Thanks for sharing your details. I will contact you if there is something for you."
+                            )
+                    ]
+                }
+
 
         elif action == "locality":
             result = req.get("queryResult")
