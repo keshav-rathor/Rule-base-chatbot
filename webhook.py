@@ -21,6 +21,7 @@ job=db.Hiring_PublicJobPosition
 
 job_detail={}
 name={}
+candidates_detail={}
 
 # Flask app should start in global layout
 app = Flask(__name__)
@@ -71,7 +72,7 @@ def webhook():
 
 
 def process_request(req):
-    global job_detail
+    global job_detail,candidates_detail
     try:
         action = req.get("queryResult").get("action")
 
@@ -84,9 +85,15 @@ def process_request(req):
         elif action == "name":
             result = req.get("queryResult")
             parameter = result.get("parameters")
-            job_detail.update(parameter)
-        # candidates.insert(name)
+            candidates_detail.update(parameter)
+            #candidates.insert(candidates_detail)
 
+        elif action == "Community":
+            result = req.get("queryResult")
+            parameter = result.get("parameters")
+            candidates_detail.update(parameter)
+            candidates.insert(candidates_detail)
+ 
         elif action == "locality":
             result = req.get("queryResult")
             parameter = result.get("parameters")
