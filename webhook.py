@@ -92,8 +92,8 @@ def process_request(req):
             result = req.get("queryResult")
             parameter = result.get("parameters")
             candidates_detail.update(parameter)
-            
-            if len(candidates_detail)==7:
+
+            if len(candidates_detail)>=7:
                 candidates.insert(candidates_detail)
                 candidates_detail={}
                 return {
