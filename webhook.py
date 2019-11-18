@@ -2,6 +2,7 @@ import json
 import os
 import traceback
 import random
+import spacy
 
 from bson.objectid import ObjectId
 from flask import Flask
@@ -92,8 +93,11 @@ def process_request(req):
             result = req.get("queryResult")
             parameter = result.get("parameters")
             candidates_detail.update(parameter)
-
-            if len(candidates_detail)>=8:
+        elif action =="resume":
+            result = req.get("originalDetectIntentRequest").get("payload").get("data").get("message").get("attachments")[0].get("payload")
+            resume_url = resume2.get("url")
+            candidates_detail.update(resume_url)
+            if len(candidates_detail)>=9:
                 candidates.insert(candidates_detail)
                 candidates_detail={}
                 return {
@@ -107,6 +111,16 @@ def process_request(req):
                     ]
                 }
 
+        elif action == "skill":
+            skills_details=[]
+            result = req.get("queryResult")
+            parameter = result.get("parameters")
+            skills_text=parameter["skills"]
+            nlp = spacy.load("en_core_web_sm")
+            doc_skills = nlp(skills_text)
+            for ent in doc_skills.ents:
+                print(ent.text,ent.label_)
+                skills_details.append(ent.text)
 
         elif action == "locality":
             result = req.get("queryResult")
