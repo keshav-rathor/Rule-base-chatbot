@@ -64,6 +64,7 @@ def show(information,information_previous):
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
+    print(req)
     res = process_request(req)
     res = json.dumps(res, indent=4)
     # print(res)
@@ -104,7 +105,7 @@ def process_request(req):
                     "source": "webhook",
                     "fulfillmentMessages": [
                         make_text_response(
-                            " Thanks for sharing your details. Looks like someone already got hired for this role ."
+                            " Thanks for showing interest in our community."
                             "I will get back to you with new jobs as soon as possible."
 
                             )
