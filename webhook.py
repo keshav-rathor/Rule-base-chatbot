@@ -2,7 +2,7 @@ import json
 import os
 import traceback
 import random
-import spacy
+# import spacy
 
 from bson.objectid import ObjectId
 from flask import Flask
@@ -112,16 +112,16 @@ def process_request(req):
                     ]
                 }
 
-        elif action == "skill":
-            skills_details=[]
-            result = req.get("queryResult")
-            parameter = result.get("parameters")
-            skills_text=parameter["skills"]
-            nlp = spacy.load("en_core_web_sm")
-            doc_skills = nlp(skills_text)
-            for ent in doc_skills.ents:
-                print(ent.text,ent.label_)
-                skills_details.append(ent.text)
+        # elif action == "skill":
+        #     skills_details=[]
+        #     result = req.get("queryResult")
+        #     parameter = result.get("parameters")
+        #     skills_text=parameter["skills"]
+        #     nlp = spacy.load("en_core_web_sm")
+        #     doc_skills = nlp(skills_text)
+        #     for ent in doc_skills.ents:
+        #         print(ent.text,ent.label_)
+        #         skills_details.append(ent.text)
 
         elif action == "locality":
             result = req.get("queryResult")
