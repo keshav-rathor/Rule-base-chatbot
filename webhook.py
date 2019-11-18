@@ -96,8 +96,8 @@ def process_request(req):
 
         elif action =="resume":
             result = req.get("originalDetectIntentRequest").get("payload").get("data").get("message").get("attachments")[0].get("payload")
-            resume_url = result.get("url")
-            candidates_detail.update(resume_url)
+            #resume_url = result.get("url")
+            candidates_detail.update(result)
             if len(candidates_detail)>=9:
                 candidates.insert(candidates_detail)
                 candidates_detail={}
