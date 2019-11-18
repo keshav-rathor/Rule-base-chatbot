@@ -64,7 +64,6 @@ def show(information,information_previous):
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
-    print(req)
     res = process_request(req)
     res = json.dumps(res, indent=4)
     # print(res)
@@ -94,9 +93,10 @@ def process_request(req):
             result = req.get("queryResult")
             parameter = result.get("parameters")
             candidates_detail.update(parameter)
+
         elif action =="resume":
             result = req.get("originalDetectIntentRequest").get("payload").get("data").get("message").get("attachments")[0].get("payload")
-            resume_url = resume2.get("url")
+            resume_url = result.get("url")
             candidates_detail.update(resume_url)
             if len(candidates_detail)>=9:
                 candidates.insert(candidates_detail)
