@@ -186,6 +186,7 @@ def process_request(req):
             print(show_jobs)
 
             if show_jobs:
+                print("IT - Show_jobs")
                 job_detail = {}
                 return {
                     "source": "webhook",
