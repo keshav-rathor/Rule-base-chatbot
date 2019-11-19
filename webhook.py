@@ -124,8 +124,7 @@ def process_request(req):
         #         print(ent.text,ent.label_)
         #         skills_details.append(ent.text)
 
-        elif action == "locality":
-            print("locality")
+        elif action == "search_jobs":
             result = req.get("queryResult")
             parameter = result.get("parameters")
             job_detail.update(parameter)
@@ -134,8 +133,7 @@ def process_request(req):
 
             # print("Got all job details")
             #candidates.insert(job_detail)
-            show_jobs = job.find({"locality": job_detail["locality"],
-                                  "statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}).limit(3)
+            show_jobs = job.find({"statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}.update(parameter)).limit(3)
             print(show_jobs)
 
             if show_jobs:
@@ -195,11 +193,11 @@ def process_request(req):
                             "card": {
                                 "title": i["jobTitle"],
                                 "subtitle": i["companyName"] + " | " + i["locality"] + " | " + i["region"],
-                                # "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
+                                "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
                                 "buttons": [
                                     {
                                         "text": "View Job Detail",
-                                        # "postback": i["jobDetailsUrl"]
+                                        "postback": i["jobDetailsUrl"]
                                     }
                                 ]
                             },
