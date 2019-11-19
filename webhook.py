@@ -83,6 +83,7 @@ def process_request(req):
             return {
                 "source": "webhook"
             }
+
         elif action == "name":
             result = req.get("queryResult")
             parameter = result.get("parameters")
@@ -124,13 +125,14 @@ def process_request(req):
         #         skills_details.append(ent.text)
 
         elif action == "locality":
+            print("locality")
             result = req.get("queryResult")
             parameter = result.get("parameters")
             job_detail.update(parameter)
             # print("Job details", job_detail)
             # print("Name", name)
 
-            print("Got all job details")
+            # print("Got all job details")
             #candidates.insert(job_detail)
             show_jobs = job.find({"locality": job_detail["locality"],
                                   "statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}).limit(3)
@@ -169,6 +171,7 @@ def process_request(req):
                 }
 
         elif action == "IT":
+            print("IT")
             result = req.get("queryResult")
             parameter = result.get("parameters")
             job_detail.update(parameter)
@@ -176,6 +179,7 @@ def process_request(req):
             # print("Name", name)
 
             print("Got all job details")
+            print(job_detail)
             #candidates.insert(job_detail)
             show_jobs = job.find({"jobTitle": job_detail["jobTitle"],
                                   "statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}).limit(3)
@@ -215,17 +219,18 @@ def process_request(req):
 
 
         elif action == "Jobs":
-           result = req.get("queryResult")
-           parameter=result.get("parameters")
-           job_detail.update(parameter)
+            print("jobs")
+            result = req.get("queryResult")
+            parameter=result.get("parameters")
+            job_detail.update(parameter)
             # print("Job details", job_detail)
             # print("Name", name)
-           if len(job_detail)>=6:
-               print("Got all job details")
+            if len(job_detail)>=6:
+               # print("Got all job details")
                candidates.insert(job_detail)
                show_jobs = job.find({ "locality": job_detail["locality"],
                                         "statusVisible" : "enum.Hiring_JobPositionStatusVisible.Public"}).limit(3)
-               print(show_jobs)
+               # print(show_jobs)
 
                if show_jobs:
                    job_detail={}
