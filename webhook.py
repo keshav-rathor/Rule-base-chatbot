@@ -194,7 +194,7 @@ def process_request(req):
                                 "buttons": [
                                     {
                                         "text": "View Job Detail",
-                                        "postback": i["jobDetailsUrl"]
+                                        # "postback": i["jobDetailsUrl"]
                                     }
                                 ]
                             },
