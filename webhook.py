@@ -195,7 +195,7 @@ def process_request(req):
                             "card": {
                                 "title": i["jobTitle"],
                                 "subtitle": i["companyName"] + " | " + i["locality"] + " | " + i["region"],
-                                "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
+                                # "imageUri": "https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/jobs660_090518050232_103118054303_022119084317.jpg",
                                 "buttons": [
                                     {
                                         "text": "View Job Detail",
