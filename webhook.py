@@ -136,7 +136,7 @@ def process_request(req):
             show_jobs = job.find({"statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}.update(parameter)).limit(3)
             print(show_jobs)
 
-            if show_jobs:
+            if show_jobs.count()!=0:
                 job_detail = {}
                 return {
                     "source": "webhook",
