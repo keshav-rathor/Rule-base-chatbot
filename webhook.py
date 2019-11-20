@@ -95,7 +95,7 @@ def process_request(req):
             parameter = result.get("parameters")
             candidates_detail.update(parameter)
         #candidates.insert(candidates_detail)
-            if len(candidates_detail) >= 5:
+            if len(candidates_detail) >= 9:
                 candidates.insert(candidates_detail)
                 candidates_detail = {}
                 return {
