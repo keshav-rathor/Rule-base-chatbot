@@ -94,15 +94,10 @@ def process_request(req):
             result = req.get("queryResult")
             parameter = result.get("parameters")
             candidates_detail.update(parameter)
-        candidates.insert(candidates_detail)
-
-        elif action =="resume":
-            result = req.get("originalDetectIntentRequest").get("payload").get("data").get("message").get("attachments")[0].get("payload")
-            #resume_url = result.get("url")
-            candidates_detail.update(result)
-            if len(candidates_detail)>=9:
+        #candidates.insert(candidates_detail)
+            if len(candidates_detail) >= 9:
                 candidates.insert(candidates_detail)
-                candidates_detail={}
+                candidates_detail = {}
                 return {
                     "source": "webhook",
                     "fulfillmentMessages": [
@@ -110,9 +105,15 @@ def process_request(req):
                             " Thanks for showing interest in our community."
                             "I will get back to you with new jobs as soon as possible."
 
-                            )
+                        )
                     ]
                 }
+
+        elif action == "resume":
+            result = req.get("originalDetectIntentRequest").get("payload").get("data").get("message").get("attachments")[0].get("payload")
+            #resume_url = result.get("url")
+            candidates_detail.update(result)
+
 
         # elif action == "skill":
         #     skills_details=[]
