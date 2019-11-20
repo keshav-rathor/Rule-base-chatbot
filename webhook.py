@@ -18,7 +18,7 @@ candidates = db.Chatbots_Candidates
 job=db.Hiring_PublicJobPosition
 
 
-
+flag = 0
 
 job_detail={}
 name={}
