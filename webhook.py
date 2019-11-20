@@ -94,7 +94,7 @@ def process_request(req):
             result = req.get("queryResult")
             parameter = result.get("parameters")
             candidates_detail.update(parameter)
-            candidates.insert(candidates_detail)
+        candidates.insert(candidates_detail)
 
         elif action =="resume":
             result = req.get("originalDetectIntentRequest").get("payload").get("data").get("message").get("attachments")[0].get("payload")
