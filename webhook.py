@@ -264,6 +264,44 @@ def process_request(req):
                        ]
                    }
 
+        elif action == "input.unknown":
+            flag += 1
+            if flag >= 2:
+                flag = 0
+                return {
+                    "source": "webhook",
+                    "fulfillmentMessages": [
+                        {
+                            "text": {
+                                "text": [
+                                    "It's look like I unable to understand what you are saying but  "
+                                    "I can help you these following things:\n1. About Qrata 📝\n2. Jobs 👨🏼‍🏫\n3. "
+                                    "Be You",
+                                ]
+                            }
+                        },
+                        {
+                            "text": {
+                                "text": [
+                                    "I am not fully aware of what you are asking .",
+                                ]
+                            },
+                            "platform": "FACEBOOK"
+                        },
+                        {
+                            "quickReplies": {
+                                "title": "But I can help you these following things",
+                                "quickReplies": [
+                                    "About Qrata",
+                                    "Jobs",
+                                    "Be You",
+                                    
+                                ]
+                            },
+                            "platform": "FACEBOOK"
+                        }
+                    ]
+                }
 
 
 
