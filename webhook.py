@@ -74,6 +74,7 @@ def webhook():
 
 def process_request(req):
     global job_detail,candidates_detail
+    global flag
     try:
         action = req.get("queryResult").get("action")
 
@@ -295,7 +296,7 @@ def process_request(req):
                                     "About Qrata",
                                     "Jobs",
                                     "Be You",
-                                    
+
                                 ]
                             },
                             "platform": "FACEBOOK"
