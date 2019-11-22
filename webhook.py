@@ -103,8 +103,8 @@ def process_request(req):
                     "source": "webhook",
                     "fulfillmentMessages": [
                         make_text_response(
-                            " Thanks for showing interest in our community."
-                            "I will get back to you with new jobs as soon as possible."
+                            "Excellent! i'll keep you updated."
+                             "hope to see you soon. Goodbye!"
 
                         )
                     ]
