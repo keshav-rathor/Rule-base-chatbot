@@ -140,7 +140,7 @@ def process_request(req):
             filter_query.update(parameter)
 
             show_jobs = job.find(filter_query).limit(3)
-            print(show_jobs)
+            print("show jobs",show_jobs)
 
             if show_jobs.count()!=0:
                 job_detail = {}
