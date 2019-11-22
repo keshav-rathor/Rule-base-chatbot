@@ -136,7 +136,7 @@ def process_request(req):
 
             # print("Got all job details")
             #candidates.insert(job_detail)
-            show_jobs = job.find({"statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}.update(parameter)).limit(3)
+            show_jobs = job.find({"statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}.update(parameter)).limit(4)
             print(show_jobs)
 
             if show_jobs.count()!=0:
