@@ -15,7 +15,7 @@ MONGODB_URI = "mongodb+srv://kamlesh:techmatters123@aflatoun-quiz-pflgi.mongodb.
 client = MongoClient(MONGODB_URI, connectTimeoutMS=30000)
 db = client.hrchatbot
 candidates = db.Chatbots_Candidates
-job=db.Hiring_PublicJobPosition
+job = db.Hiring_PublicJobPosition
 
 
 flag = 0
@@ -136,7 +136,10 @@ def process_request(req):
 
             # print("Got all job details")
             #candidates.insert(job_detail)
-            show_jobs = job.find({"statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}.update(parameter)).limit(3)
+            filter_query = {"statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}
+            filter_query.update(parameter)
+
+            show_jobs = job.find(filter_query).limit(3)
             print(show_jobs)
 
             if show_jobs.count()!=0:
