@@ -163,7 +163,19 @@ def process_request(req):
                             "platform": "FACEBOOK"
                         } for i in show_jobs
                     ] + [
-                        make_text_response("You can apply for the job or you can view something else.")
+                        make_text_response("You can apply for the job or you can view something else."),
+                        {
+                            "quickReplies": {
+                                "title": "These are your options",
+                                "quickReplies": [
+                                    "About us",
+                                    "Be You!"
+                                    "Jobs"
+                                ]
+                            },
+                            "platform": "FACEBOOK"
+                        }
+
                     ]
 
 
