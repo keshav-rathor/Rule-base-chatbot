@@ -139,7 +139,7 @@ def process_request(req):
             filter_query = {"statusVisible": "enum.Hiring_JobPositionStatusVisible.Public"}
             filter_query.update(parameter)
 
-            show_jobs = job.find(filter_query).limit(6)
+            show_jobs = job.find(filter_query).limit(5)
             print("show jobs",show_jobs)
 
             if show_jobs.count()!=0:
