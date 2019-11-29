@@ -104,9 +104,23 @@ def process_request(req):
                     "fulfillmentMessages": [
                         make_text_response(
                             "Excellent! i'll keep you updated."
-                             "hope to see you soon. Goodbye!"
 
                         )
+                    ] + [
+                        make_text_response("Meanwhile you can have a look on these things"),
+                        {
+                            "quickReplies": {
+                                "title": "These are your options",
+                                "quickReplies": [
+                                    "About us",
+                                    "Be You!",
+                                    "Jobs",
+                                    "Help us to improve"
+                                ]
+                            },
+                            "platform": "FACEBOOK"
+                        }
+
                     ]
                 }
 
