@@ -159,8 +159,15 @@ def process_request(req):
                                     }
                                 ]
                             },
+
                             "platform": "FACEBOOK"
-                        } for i in show_jobs]
+                        } for i in show_jobs],
+                    make_text_response(
+                        "You can apply for the job or you can view something else."
+
+
+                    )
+
                 }
 
             else:
