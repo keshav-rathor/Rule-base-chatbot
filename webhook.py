@@ -169,7 +169,7 @@ def process_request(req):
                                 "title": "These are your options",
                                 "quickReplies": [
                                     "About us",
-                                    "Be You!"
+                                    "Be You!",
                                     "Jobs"
                                 ]
                             },
