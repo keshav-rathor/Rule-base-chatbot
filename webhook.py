@@ -203,6 +203,19 @@ def process_request(req):
                             " We are really sorry but we don't have any job opening for your profile for now ."
                             "We have your contact details and will contact you if there is any opening in future ."
                             "Thanks for visiting our site")
+                    ]+[
+                        {
+                            "quickReplies": {
+                                "title": "These are your options",
+                                "quickReplies": [
+                                    "About us",
+                                    "Be You!",
+                                    "Jobs"
+                                ]
+                            },
+                            "platform": "FACEBOOK"
+                        }
+
                     ]
                 }
 
