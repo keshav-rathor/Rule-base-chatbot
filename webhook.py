@@ -3,6 +3,7 @@ import os
 import traceback
 import random
 # import spacy
+from bidaf.models import BidirectionalAttentionFlow
 
 from bson.objectid import ObjectId
 from flask import Flask
@@ -352,7 +353,18 @@ def process_request(req):
                     ]
                 }
 
-
+        elif action == "faq":
+            result = req.get("queryResult")
+            parameter = result.get("parameters")
+            bidaf_model = BidirectionalAttentionFlow(400)
+            bidaf_model.load_bidaf("bidaf/saved_items/bidaf_50.h5")
+            bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter)
+            return {
+                "source": "webhook",
+                "fulfillmentMessages": [
+                    make_text_response(bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter).get('answer'))
+                ]
+            }
 
     except Exception as e:
         print("Error:", e)
