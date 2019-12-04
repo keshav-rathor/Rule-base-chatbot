@@ -10,6 +10,17 @@ from flask import Flask
 from flask import request, make_response
 from pymongo import MongoClient
 
+import os.path
+
+if os.path.isfile('bidaf/saved_items/bidaf_50.h5'):
+    pass
+else:
+    from google_drive_downloader import GoogleDriveDownloader as gdd
+
+    gdd.download_file_from_google_drive(file_id='10C56f1DSkWbkBBhokJ9szXM44P9T-KfW',
+                                        dest_path='bidaf\\saved_items\\bidaf_50.h5',
+                                        unzip=False)
+
 #from utils import ButtonList
 
 MONGODB_URI = "mongodb+srv://kamlesh:techmatters123@aflatoun-quiz-pflgi.mongodb.net/test?retryWrites=true&w=majority"
