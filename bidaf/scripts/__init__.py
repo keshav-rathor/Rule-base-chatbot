@@ -6,3 +6,5 @@ from .accuracy_metric import accuracy
 from .multi_gpu_model import ModelMGPU
 from .preprocess import data_download_and_preprocess, tokenize
 from .postprocess import get_best_span, get_word_char_loc_mapping
+
+
