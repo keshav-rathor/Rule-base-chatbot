@@ -449,7 +449,7 @@ def process_request(req):
                     ]
                 }
 
-        elif action == "faq":
+        elif action == "FAQ":
             result = req.get("queryResult")
             parameter = result.get("parameters")
             custom_tokens = remove_noise(word_tokenize(parameter))
@@ -466,19 +466,19 @@ def process_request(req):
 
 
 
-# #Document reading from FAQ intent
-#         elif action == "faq":
-#             result = req.get("queryResult")
-#             parameter = result.get("parameters")
-#             bidaf_model = BidirectionalAttentionFlow(400)
-#             bidaf_model.load_bidaf("bidaf/saved_items/bidaf_50.h5")
-#             bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter)
-#             return {
-#                 "source": "webhook",
-#                 "fulfillmentMessages": [
-#                     make_text_response(bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter).get('answer'))
-#                 ]
-#             }
+#Document reading from FAQ intent
+        elif action == "faq":
+            result = req.get("queryResult")
+            parameter = result.get("parameters")
+            bidaf_model = BidirectionalAttentionFlow(400)
+            bidaf_model.load_bidaf("bidaf/saved_items/bidaf_50.h5")
+            bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter)
+            return {
+                "source": "webhook",
+                "fulfillmentMessages": [
+                    make_text_response(bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter).get('answer'))
+                ]
+            }
 
 #if some error occure then display this message
     except Exception as e:
