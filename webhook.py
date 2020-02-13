@@ -453,8 +453,9 @@ def process_request(req):
             result = req.get("queryResult")
             parameter = result.get("parameters")
             custom_tokens = remove_noise(word_tokenize(parameter))
+            print("sentiment is working-------")
             classifier = NaiveBayesClassifier.train(train_data)
-            print("sentiment analysis is :=",classifier.classify(dict([token, True] for token in custom_tokens)))
+            print("sentiment analysis is :-----",classifier.classify(dict([token, True] for token in custom_tokens)))
             return {
                 "source": "webhook",
                 "fulfillmentMessages": [
