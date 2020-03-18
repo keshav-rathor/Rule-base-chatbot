@@ -372,24 +372,7 @@ def process_request(req):
 
 
 
-# Document reading from FAQ intent
-#         elif action == "faq":
-#             print("-------")
-#             result = req.get("queryResult")
-#             parameter = result.get("parameter").get("query")
-#             bidaf_model = BidirectionalAttentionFlow(400)
-#             bidaf_model.load_bidaf("bidaf/saved_items/bidaf_50.h5")
-#             print("------------")
-#             bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter)
-#             x=bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter).get('answer')
-#             print("------------")
-#             print(x)
-#             return {
-#                 "source": "webhook",
-#                 "fulfillmentMessages": [
-#                     make_text_response(bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter).get('answer'))
-#                 ]
-#             }
+
 
 #if some error occure then display this message
     except Exception as e:
