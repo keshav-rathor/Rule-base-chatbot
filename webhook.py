@@ -1,106 +1,35 @@
 import json
-import os
-import traceback
 import random
-# import spacy
-#from bidaf.models import BidirectionalAttentionFlow
+# printing the version of python
+import sys
+import traceback
 
-from bson.objectid import ObjectId
 from flask import Flask
 from flask import request, make_response
 from pymongo import MongoClient
-import sentiment_analysis
-from nltk.tokenize import word_tokenize
-from nltk import FreqDist, classify, NaiveBayesClassifier
-from sentiment_analysis import lemmatize_sentence
-from sentiment_analysis import remove_noise
-from sentiment_analysis import get_all_words
-from sentiment_analysis import get_tweets_for_model
-from sentiment_analysis import remove_noise
-import nltk
 
-from nltk.corpus import twitter_samples
-from nltk.tag import pos_tag
-from nltk.corpus import twitter_samples
-from nltk.tag import pos_tag
-from nltk.stem.wordnet import WordNetLemmatizer
-import re, string
-from nltk.corpus import stopwords
-import random
-from nltk import FreqDist
-from nltk import classify
-from nltk import NaiveBayesClassifier
-from nltk.tokenize import word_tokenize
-from nltk.stem.wordnet import WordNetLemmatizer
-from nltk.corpus import twitter_samples, stopwords
-from nltk.tag import pos_tag
-from nltk.tokenize import word_tokenize
-from nltk import FreqDist, classify, NaiveBayesClassifier
-from nltk.tokenize import word_tokenize
+# from bidaf.models import BidirectionalAttentionFlow
 
-import re, string, random
-
-
-nltk.download('stopwords')
-nltk.download('twitter_samples')
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('averaged_perceptron_tagger')
-
-positive_tweets = twitter_samples.strings('positive_tweets.json')
-negative_tweets = twitter_samples.strings('negative_tweets.json')
-text = twitter_samples.strings('tweets.20150430-223406.json')
-tweet_tokens = twitter_samples.tokenized('positive_tweets.json')[0]
-tweet_tokens = twitter_samples.tokenized('positive_tweets.json')
-
-positive_cleaned_tokens_list = []
-negative_cleaned_tokens_list = []
-
-stop_words = stopwords.words('english')
-print(remove_noise(tweet_tokens[0], stop_words))
-
-positive_tweet_tokens = twitter_samples.tokenized('positive_tweets.json')
-negative_tweet_tokens = twitter_samples.tokenized('negative_tweets.json')
-
-for tokens in positive_tweet_tokens:
-    positive_cleaned_tokens_list.append(remove_noise(tokens, stop_words))
-
-for tokens in negative_tweet_tokens:
-    negative_cleaned_tokens_list.append(remove_noise(tokens, stop_words))
-
-print(positive_tweet_tokens[500])
-print(positive_cleaned_tokens_list[500])
-
-all_pos_words = get_all_words(positive_cleaned_tokens_list)
-freq_dist_pos = FreqDist(all_pos_words)
-print(freq_dist_pos.most_common(10))
-positive_tokens_for_model = get_tweets_for_model(positive_cleaned_tokens_list)
-negative_tokens_for_model = get_tweets_for_model(negative_cleaned_tokens_list)
-positive_dataset = [(tweet_dict, "Positive") for tweet_dict in positive_tokens_for_model]
-negative_dataset = [(tweet_dict, "Negative") for tweet_dict in negative_tokens_for_model]
-dataset = positive_dataset + negative_dataset
-random.shuffle(dataset)
-train_data = dataset[:7000]
-test_data = dataset[7000:]
-classifier = NaiveBayesClassifier.train(train_data)
-
-
-
-#printing the version of python
-import sys
 print('Python %s on %s' % (sys.version, sys.platform))
 
 #Check the file in saved_items if it's there then pass else download from drive
-import os.path
-if os.path.isfile('bidaf/saved_items/bidaf_50.h5'):
-    pass
-else:
-    from google_drive_downloader import GoogleDriveDownloader as gdd
-    gdd.download_file_from_google_drive(file_id='10C56f1DSkWbkBBhokJ9szXM44P9T-KfW',
-                                        dest_path='bidaf\\saved_items\\bidaf_50.h5',
-                                        unzip=False)                                 #download the .h5 file from google drive
+# import os.path
+# if os.path.isfile('bidaf/saved_items/bidaf_50.h5'):
+#     pass
+# else:
+#     from google_drive_downloader import GoogleDriveDownloader as gdd
+#     gdd.download_file_from_google_drive(file_id='10C56f1DSkWbkBBhokJ9szXM44P9T-KfW',
+#                                         dest_path='bidaf\\saved_items\\bidaf_50.h5',
+#                                         unzip=False)                                 #download the .h5 file from google drive
 
 #from utils import ButtonList
+
+# MONGODB_URI = "mongodb://hrbot:hrbot#$123@198.199.77.69/HRBOT_DATABASE"
+# client = MongoClient(MONGODB_URI, connectTimeoutMS=30000)
+# db = client.HRBOT_DATABASE
+# db = client.cool_db
+# print(db.cool_collection.count())
+
 MONGODB_URI = "mongodb+srv://kamlesh:techmatters123@aflatoun-quiz-pflgi.mongodb.net/test?retryWrites=true&w=majority"
 client = MongoClient(MONGODB_URI, connectTimeoutMS=30000)
 db = client.hrchatbot
@@ -130,21 +59,11 @@ def make_text_response(message, platform="FACEBOOK"):
 
 
 
-# Defining a function which inputs a text and outputs the formatted object to return in facebook response
-def make_text_response(message, platform="FACEBOOK"):
-    return {
-        "text": {
-            "text": [
-                message
-            ]
-        },
-        "platform": platform
-    }
-
 
 information=["experiance","skills","CTC","Location"]
 information_previous=[]
 def show(information,information_previous):
+    global information_sample
     if len(information) != 0:
         information_sample = random.choice(information)
         information_previous.append(information_sample)
@@ -314,7 +233,7 @@ def process_request(req):
 
                     ]
                 }
-
+#
         elif action == "IT":
             print("IT")
             result = req.get("queryResult")
@@ -447,39 +366,29 @@ def process_request(req):
                             "platform": "FACEBOOK"
                         }
                     ]
-                }
-
-        elif action == "FAQ":
-            result = req.get("queryResult")
-            parameter = result.get("parameters")
-            custom_tokens = remove_noise(word_tokenize(parameter))
-            print("sentiment is working-------")
-            classifier = NaiveBayesClassifier.train(train_data)
-            print("sentiment analysis is :-----",classifier.classify(dict([token, True] for token in custom_tokens)))
-            return {
-                "source": "webhook",
-                "fulfillmentMessages": [
-                    classifier.classify(dict([token, True] for token in custom_tokens))
-
-                ]
-            }
+             }
 
 
 
 
-#Document reading from FAQ intent
-        # elif action == "faq":
-        #     result = req.get("queryResult")
-        #     parameter = result.get("parameters")
-        #     bidaf_model = BidirectionalAttentionFlow(400)
-        #     bidaf_model.load_bidaf("bidaf/saved_items/bidaf_50.h5")
-        #     bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter)
-        #     return {
-        #         "source": "webhook",
-        #         "fulfillmentMessages": [
-        #             make_text_response(bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter).get('answer'))
-        #         ]
-        #     }
+# Document reading from FAQ intent
+#         elif action == "faq":
+#             print("-------")
+#             result = req.get("queryResult")
+#             parameter = result.get("parameter").get("query")
+#             bidaf_model = BidirectionalAttentionFlow(400)
+#             bidaf_model.load_bidaf("bidaf/saved_items/bidaf_50.h5")
+#             print("------------")
+#             bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter)
+#             x=bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter).get('answer')
+#             print("------------")
+#             print(x)
+#             return {
+#                 "source": "webhook",
+#                 "fulfillmentMessages": [
+#                     make_text_response(bidaf_model.predict_ans('this is a very beautiful flower but girls used to think they are more beautiful.',parameter).get('answer'))
+#                 ]
+#             }
 
 #if some error occure then display this message
     except Exception as e:
